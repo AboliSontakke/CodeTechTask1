@@ -37,3 +37,8 @@ Core Functionality: Focused on essential features to ensure simplicity and effec
 Code Quality: Emphasis on clean, readable, and maintainable code.
 
 Output:
+![Screenshot (234)](https://github.com/user-attachments/assets/014410e7-7276-4a97-89a3-bd03c540051d)
+![Screenshot (235)](https://github.com/user-attachments/assets/a3bd0167-dc99-48dd-aea0-3d84208fc5a0)
+![Screenshot (236)](https://github.com/user-attachments/assets/2584823c-7fbb-47a1-9970-9d70a83c8f89)
+
+
