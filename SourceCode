@@ -1,4 +1,165 @@
 //Student Grade Tracker
+//It allows users to add student details,add grades of respective subjects and calculate grades accordingly.
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+public class StudentGradeTracker {
+	private String name;
+	private int id;
+	private Map<String, Double> grades;
+	private static List<StudentGradeTracker> students = new ArrayList<>();
+	private static Scanner sc = new Scanner(System.in);
+
+	public StudentGradeTracker(String name, int id) {
+		this.name = name;
+		this.id = id;
+		this.grades = new HashMap<>();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public Map<String, Double> getGrades() {
+		return grades;
+	}
+
+	public void addGrade(String subject, double grade) {
+		grades.put(subject, grade);
+	}
+
+	public String calculateGrade() {
+		double totalMarks = 0;
+		int noSubjects = grades.size();
+		int maxMarksPerSubject = 100;
+
+		for (double marks : grades.values()) {
+			if (marks < 0 || marks > maxMarksPerSubject) {
+				System.out.println("Enter valid marks between 0-100:");
+				return null;
+			}
+			totalMarks += marks;
+		}
+
+		double avgPercentage = (totalMarks / (noSubjects * maxMarksPerSubject)) * 100;
+		System.out.println("Total marks: " + totalMarks);
+		System.out.println("Percentage: " + avgPercentage + "%");
+
+		if (avgPercentage >= 95) {
+			return "O";
+		} else if (avgPercentage >= 85) {
+			return "A+";
+		} else if (avgPercentage >= 70) {
+			return "A";
+		} else if (avgPercentage >= 60) {
+			return "B+";
+		} else if (avgPercentage >= 55) {
+			return "B";
+		} else if (avgPercentage >= 45) {
+			return "C";
+		} else {
+			return "Fail";
+		}
+	}
+
+	public static void main(String[] args) {
+		boolean cycle = true;
+
+		while (cycle) {
+			System.out.println("1. Add Student\n2. Add Grade\n3. View Grade\n4. Calculate Total Grade\n5. Exit");
+			int choice = sc.nextInt();
+
+			switch (choice) {
+			case 1:
+				addStudent();
+				break;
+			case 2:
+				addGrade();
+				break;
+			case 3:
+				viewGrade();
+				break;
+			case 4:
+				calculateAvg();
+				break;
+			case 5:
+				cycle = false;
+				break;
+			default:
+				System.out.println("Please select a valid option!");
+			}
+		}
+		sc.close();
+	}
+
+	public static void addStudent() {
+		System.out.println("Enter name of student:");
+		String name = sc.next();
+		System.out.println("Enter student ID:");
+		int id = sc.nextInt();
+		students.add(new StudentGradeTracker(name, id));
+		System.out.println("Student added successfully.");
+	}
+
+	public static void addGrade() {
+		System.out.println("Enter ID of student:");
+		int id = sc.nextInt();
+		StudentGradeTracker st = findStudentById(id);
+		if (st != null) {
+			System.out.println("Enter subject:");
+			String subject = sc.next();
+			System.out.println("Enter grade:");
+			double grade = sc.nextDouble();
+			st.addGrade(subject, grade);
+			System.out.println("Grade added successfully!");
+		} else {
+			System.out.println("Student not found!!");
+		}
+	}
+
+	public static void viewGrade() {
+		System.out.println("Enter ID:");
+		int id = sc.nextInt();
+		StudentGradeTracker st = findStudentById(id);
+		if (st != null) {
+			System.out.println("Student grades for: " + st.getName());
+			for (Map.Entry<String, Double> entry : st.getGrades().entrySet()) {
+				System.out.println(entry.getKey() + ": " + entry.getValue());
+			}
+		} else {
+			System.out.println("Grades not found!!");
+		}
+	}
+
+	public static void calculateAvg() {
+		System.out.println("Enter ID:");
+		int id = sc.nextInt();
+		StudentGradeTracker st = findStudentById(id);
+		if (st != null) {
+			System.out.println("Average grade: " + st.calculateGrade());
+		} else {
+			System.out.println("Student not found!");
+		}
+	}
+
+	public static StudentGradeTracker findStudentById(int id) {
+		for (StudentGradeTracker student : students) {
+			if (student.getId() == id) {
+				return student;
+			}
+		}
+		return null;
+	}
+}
+
 
 
 
